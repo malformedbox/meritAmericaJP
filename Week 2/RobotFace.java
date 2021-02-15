@@ -7,11 +7,14 @@ import acm.program.GraphicsProgram;
 import java.awt.*;
 
 public class RobotFace extends GraphicsProgram {
-	public static final int APPLICATION_WIDTH = 410, APPLICATION_HEIGHT = 200; 
+	public static final int APPLICATION_WIDTH = 410; 
+	public static final int APPLICATION_HEIGHT = 200;
 	
-	private static final int HEAD_WIDTH = 100, HEAD_HEIGHT = 150;
+	private static final int HEAD_WIDTH = 100;
+	private static final int HEAD_HEIGHT = 150;
 	private static final int EYE_RADIUS = 8;
-	private static final int MOUTH_WIDTH = 60, MOUTH_HEIGHT = 20;
+	private static final int MOUTH_WIDTH = 60;
+	private static final int MOUTH_HEIGHT = 20;
 	
 	public void run() {
 		double width = getWidth();
