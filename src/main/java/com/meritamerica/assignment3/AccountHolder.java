@@ -3,59 +3,57 @@ package com.meritamerica.assignment3;
 import java.util.ArrayList;
 
 public class AccountHolder implements Comparable<AccountHolder>{
-	private static String firstName;
-	private static String middleName; 
-	private static String lastName;
-	private static String ssn;
+	private String firstName;
+	private String middleName; 
+	private String lastName;
+	private String ssn;
 	private static final double BALANCE_LIMIT = 250000;
 	
-	private static ArrayList<CheckingAccount> listOfCheckingAccounts = new ArrayList<CheckingAccount>();
-	private static ArrayList<SavingsAccount> listOfSavingsAccounts = new ArrayList<SavingsAccount>();
-	private static ArrayList<CDAccount> listOfCDAccounts = new ArrayList<CDAccount>();
+	private ArrayList<CheckingAccount> listOfCheckingAccounts = new ArrayList<CheckingAccount>();
+	private ArrayList<SavingsAccount> listOfSavingsAccounts = new ArrayList<SavingsAccount>();
+	private ArrayList<CDAccount> listOfCDAccounts = new ArrayList<CDAccount>();
 	
 	public AccountHolder() {} //Default constructor
-	//This constructor might be unnecessary in this assignment
 	public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
-		AccountHolder.firstName = firstName;
-		AccountHolder.middleName = middleName; 
-		AccountHolder.lastName = lastName; 
-		AccountHolder.ssn = ssn;
+		this.firstName = firstName;
+		this.middleName = middleName; 
+		this.lastName = lastName; 
+		this.ssn = ssn;
 	}
-	static String getFirstName() {
-		return AccountHolder.firstName;
+	String getFirstName() {
+		return this.firstName;
 	}
-	static void setFirstName(String firstname) {
-		AccountHolder.firstName = firstname;
+	void setFirstName(String firstname) {
+		this.firstName = firstname;
 	}
-	static String getMiddleName() {
-		return AccountHolder.middleName;
+	String getMiddleName() {
+		return this.middleName;
 	}
-	static void setMiddleName(String middleName) {
-		AccountHolder.middleName = middleName;
+	void setMiddleName(String middleName) {
+		this.middleName = middleName;
 	}
-	static String getLastName() {
-		return AccountHolder.lastName;
+	String getLastName() {
+		return this.lastName;
 	}
-	static void setLastName(String lastName) {
-		AccountHolder.lastName = lastName;
+	void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
-	static String getSSN() {
-		return AccountHolder.ssn;
+	String getSSN() {
+		return this.ssn;
 	}
 	void setSSN(String ssn) {
-		AccountHolder.ssn = ssn;
+		this.ssn = ssn;
 	}
 	static AccountHolder readFromString(String accountHolderData) throws Exception{
 		String[] parts = accountHolderData.split(",\\s*");
-		
-		/*AccountHolder.lastName = parts[0];
-		AccountHolder.middleName = parts[1];
-		AccountHolder.firstName = parts[2];
-		AccountHolder.ssn = parts[3];*/
-
-		return new AccountHolder(parts[0], parts[1], parts[2], parts[3]);
+		if(accountHolderData.length() > 0 && parts.length == 4) {
+			return new AccountHolder(parts[2], parts[1], parts[0], parts[3]);
+		}else {
+			System.out.println("AH offering");
+			throw new Exception();
+		}	
 	}
-	/*
+	
 	public CheckingAccount addCheckingAccount(double openingBalance) {
 		if((openingBalance + getCombinedBalance() - getCDBalance()) < BALANCE_LIMIT) {
 			return addCheckingAccount(new CheckingAccount(openingBalance));	
@@ -65,55 +63,86 @@ public class AccountHolder implements Comparable<AccountHolder>{
 				+ "account exceed the limit of $" + BALANCE_LIMIT);
 		return null;	
 	}
-	 This method is used when addCheckingAccount passes the conditions for
-	 opening more accounts.
 	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount) {
 		if((checkingAccount.getBalance() + getCombinedBalance() - getCDBalance()) < BALANCE_LIMIT) {
-			for(int i = 0; i < listOfCheckingAccounts.length; i++) {
-				if(listOfCheckingAccounts[i] == null) {
-					listOfCheckingAccounts[i] = checkingAccount;
-					break;
-				}
-			}
+			listOfCheckingAccounts.add(checkingAccount);
+			return checkingAccount;
 		}
 		return null;
 	}
-	public CheckingAccount[] getCheckingAccounts() {
-		return this.listOfCheckingAccounts;
+	ArrayList<CheckingAccount> getCheckingAccounts() {
+		return listOfCheckingAccounts;
 	}
-	public int getNumberOfCheckingAccounts() {
-		int numberOfCheckingAccounts = 0;
-		for(CheckingAccount i : listOfCheckingAccounts) {
-			if(i!=null) {
-				numberOfCheckingAccounts++;
-			}
-		}
-		return numberOfCheckingAccounts;
+	int getNumberOfCheckingAccounts() {
+		return listOfCheckingAccounts.size();
 	}
 	public double getCheckingBalance() {
 		double balance = 0;
-		for(int i = 0; i < listOfCheckingAccounts.length; i++) {
-			if(listOfCheckingAccounts[i] != null) {
-				balance += listOfCheckingAccounts[i].getBalance();
-			}
+		for(int i = 0; i < listOfCheckingAccounts.size(); i++) {
+			balance += listOfCheckingAccounts.get(i).getBalance();
 		}
 		return balance;
 	}
 	public double getCombinedBalance() { //Total of Checking, Savings, CDBalance
 		double combinedBalance = getCheckingBalance() + getSavingsBalance() + getCDBalance();		
 		return combinedBalance;
-	}*/
+	}
+	public SavingsAccount addSavingsAccount(double openingBalance) {
+		if((openingBalance + getCombinedBalance() - getCDBalance()) < BALANCE_LIMIT) {
+			return addSavingsAccount(new SavingsAccount(openingBalance));	
+		}
+		System.out.println("Cannot add any more checking accounts. "
+				+ "Combined balances from Checking and Savings "
+				+ "account exceed the limit of $" + BALANCE_LIMIT);
+		return null;	
+	}
+	SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) {
+		if((savingsAccount.getBalance() + getCombinedBalance() - getCDBalance()) < BALANCE_LIMIT) {
+			listOfSavingsAccounts.add(savingsAccount);
+			return savingsAccount;
+		}
+		return null;
+	}
+	ArrayList<SavingsAccount> getSavingsAccounts() {
+		return listOfSavingsAccounts;
+	}
+	int getNumberOfSavingsAccounts() {
+		return listOfSavingsAccounts.size();
+	}
+	double getSavingsBalance() {
+		double balance = 0;
+		for(int i = 0; i < listOfSavingsAccounts.size(); i++) {
+			balance += listOfSavingsAccounts.get(i).getBalance();
+		}
+		return balance;
+	}
+	CDAccount addCDAccount(CDOffering offering, double openingBalance) {
+		return addCDAccount(new CDAccount(offering, openingBalance));
+	}
+	CDAccount addCDAccount(CDAccount cdAccount) {
+		listOfCDAccounts.add(cdAccount);
+		return cdAccount;
+	}
+	ArrayList<CDAccount> getCDAccounts() {
+		return listOfCDAccounts;
+	}
+	int getNumberOfCDAccounts() {
+		return listOfCDAccounts.size();
+	}
+	double getCDBalance() {
+		double balance = 0;
+		for(int i = 0; i < listOfCDAccounts.size(); i++) {
+			balance += listOfCDAccounts.get(i).getBalance();
+		}
+		return balance;
+	}	
 	@Override
 	public int compareTo(AccountHolder ah) {
-		//sort by combined balances of their accounts
-		return 0;
+		return (int) (this.getCombinedBalance()-((AccountHolder) ah).getCombinedBalance());
 	}
-	
-	static String writeToString() {
-		if(getMiddleName().equals("")) {
-			return getFirstName() + " " + getLastName() + " " + getSSN();
-		}
-		return getFirstName() + " " + getMiddleName() + " " + getLastName() + " " + getSSN();
+	String writeToString() {
+		//Doe,,John,1234567890
+		return getLastName() + "," + getMiddleName() + "," + getFirstName() + "," + getSSN();
 	}
 
 }
