@@ -12,7 +12,7 @@ private static long accountNumber;
 	
 	static ArrayList<String> dataReadFromFile;
 	static ArrayList<AccountHolder> listOfAccounts;
-	private static CDOffering[] listOfOfferings;
+	private static CDOffering[] listOfOfferings; //Solution test still requires arrays
 	
 	static boolean readFromFile(String fileName) {
 		//Should also read BankAccount transactions and the FraudQueue
