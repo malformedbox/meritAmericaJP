@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class MeritBank {
-private static long accountNumber;
+	private static long accountNumber;
 	
 	static ArrayList<String> dataReadFromFile;
 	static ArrayList<AccountHolder> listOfAccounts;
@@ -17,54 +17,85 @@ private static long accountNumber;
 	static boolean readFromFile(String fileName) {
 		//Should also read BankAccount transactions and the FraudQueue
         try(BufferedReader reader = new BufferedReader(new FileReader(fileName))){
-            String line = "";
-            dataReadFromFile = new ArrayList<String>();
-            while((line = reader.readLine()) != null){
-                if(line.length() > 0){
-                    dataReadFromFile.add(line);
-                }
-            }         
-            int index = 0;
-            listOfOfferings = new CDOffering[Integer.parseInt(dataReadFromFile.get(1))];
-            for(int i = 1; i < Integer.parseInt(dataReadFromFile.get(1)); i++) {
-            	if(dataReadFromFile.get(i).length() == 1) {
-            		int j = i;
-            		for(int addCD = 0; addCD < Integer.parseInt(dataReadFromFile.get(j)); addCD++) {
-            			i++;
-            			listOfOfferings[addCD] = CDOffering.readFromString(dataReadFromFile.get(i));
-            		}
-            	}
-            	i = i + 1;
-            	index = i;
-            }
-        	if(dataReadFromFile.get(index).length() == 1) { //index is 5
-        		listOfAccounts = new ArrayList<AccountHolder>();
-        		int amountAH = index;
-        		for(int addAH = 0; addAH < Integer.parseInt(dataReadFromFile.get(amountAH)); addAH++) {
-        			index++; //index is 6
-        			//listOfAccounts.add(addAH, AccountHolder.readFromString(dataReadFromFile.get(index)));
-        			addAccountHolder(AccountHolder.readFromString(dataReadFromFile.get(index)));
-        			index++; //index is 7
-        			int j = index;
-        			for(int addChecking = 0; addChecking < Integer.parseInt(dataReadFromFile.get(j)); addChecking++) {
-        				index++; //index is 8
-        				listOfAccounts.get(addAH).addCheckingAccount(CheckingAccount.readFromString(dataReadFromFile.get(index)));
-        			}
-        			index++; //index is 9  
-        			int k = index;
-        			for(int addSavings = 0; addSavings < Integer.parseInt(dataReadFromFile.get(k)); addSavings++) {
-        				index++;
-        				listOfAccounts.get(addAH).addSavingsAccount(SavingsAccount.readFromString(dataReadFromFile.get(index)));
-        			}
-        			index++; //index should be at 12
-        			int l = index;
-        			for(int addCD = 0; addCD < Integer.parseInt(dataReadFromFile.get(l)); addCD++) {
-        				index++;
-        				listOfAccounts.get(addAH).addCDAccount(CDAccount.readFromString(dataReadFromFile.get(index)));
-        			}
+        	String line = "";
+        	dataReadFromFile = new ArrayList<String>();
+        	while((line = reader.readLine()) != null) {
+        		if(line.length() > 0) {
+        			dataReadFromFile.add(line);
+        		}
+        	}   	
+        	//Set next acc #
+        	setNextAccountNumber(Integer.parseInt(dataReadFromFile.get(0)));
+        	//Set the 3 CD Offerings
+        	int numCDOfferings = Integer.parseInt(dataReadFromFile.get(1));
+        	//Set the array size for listOfOfferings = amount of CDOfferings available
+        	listOfOfferings = new CDOffering[numCDOfferings];
+        	int grabAtIndexFromList = 2;
+        	for(int addOffering = 0; addOffering < numCDOfferings; addOffering++) {   		
+        		if(listOfOfferings[addOffering] == null) {
+        			listOfOfferings[addOffering] = CDOffering.readFromString(dataReadFromFile.get(grabAtIndexFromList));
+        			grabAtIndexFromList++;
         		}
         	}
-        	setNextAccountNumber(CDAccount.readFromString(dataReadFromFile.get(dataReadFromFile.size()-1)).getAccountNumber());
+        	//grabAtIndexFromList++; //Should be 5 here
+        	//Create list of account holders
+        	listOfAccounts = new ArrayList<AccountHolder>();
+        	int numOfAccountHolders = grabAtIndexFromList;
+        	for(int addAH = 0; addAH < Integer.parseInt(dataReadFromFile.get(numOfAccountHolders)); addAH++) {
+        		grabAtIndexFromList++; //Should be 6 here, 23 second loop
+        		addAccountHolder(AccountHolder.readFromString(dataReadFromFile.get(grabAtIndexFromList)));
+        		grabAtIndexFromList++; //Should be 7 here, 24
+        		int indexForChecking = grabAtIndexFromList;
+        		for(int addChecking = 0; addChecking < Integer.parseInt(dataReadFromFile.get(indexForChecking)); addChecking++) {
+        			grabAtIndexFromList++; //Should be 8 here
+        			listOfAccounts.get(addAH).addCheckingAccount(CheckingAccount.readFromString(dataReadFromFile.get(grabAtIndexFromList)));
+        			grabAtIndexFromList++;
+        			int indexForCheckingTransactions = grabAtIndexFromList;
+        			for(int checkingTransaction = 0; checkingTransaction < Integer.parseInt(dataReadFromFile.get(indexForCheckingTransactions)); checkingTransaction++) {
+        				grabAtIndexFromList++; //Should be 10 here
+        				//Transaction.readFromString(dataReadFromFile.get(grabAtIndexFromList)); 
+        				System.out.println("At line " + grabAtIndexFromList + " added: " + dataReadFromFile.get(grabAtIndexFromList));
+        				//Needs to do something with adding to checking transactions list
+        			}
+        		}
+        		grabAtIndexFromList++; //Should be 12 here
+        		int indexForSavings = grabAtIndexFromList;
+        		for(int addSavings = 0; addSavings < Integer.parseInt(dataReadFromFile.get(indexForSavings)); addSavings++) {
+        			grabAtIndexFromList++; //Should be 13 here
+        			listOfAccounts.get(addAH).addSavingsAccount(SavingsAccount.readFromString(dataReadFromFile.get(grabAtIndexFromList))); 
+        			grabAtIndexFromList++; //Should be 14 here
+        			int indexForSavingsTransactions = grabAtIndexFromList;
+        			for(int savingsTransaction = 0; savingsTransaction < Integer.parseInt(dataReadFromFile.get(indexForSavingsTransactions)); savingsTransaction++) {
+        				grabAtIndexFromList++; //Should be 15 here
+        				//Transaction.readFromString(dataReadFromFile.get(grabAtIndexFromList));
+        				System.out.println("At line " + grabAtIndexFromList + " added: " + dataReadFromFile.get(grabAtIndexFromList));
+        				//Needs to do something with adding to savings transactions list
+        			}
+        		}
+        		grabAtIndexFromList++; //Should be 22 here
+        		int indexForCD = grabAtIndexFromList;
+        		for(int addCD = 0; addCD < Integer.parseInt(dataReadFromFile.get(indexForCD)); addCD++) {
+        			grabAtIndexFromList++;
+        			listOfAccounts.get(addAH).addCDAccount(CDAccount.readFromString(dataReadFromFile.get(grabAtIndexFromList)));
+        			grabAtIndexFromList++;
+        			int indexForCDTransactions = grabAtIndexFromList;
+        			for(int cdTransaction = 0; cdTransaction < Integer.parseInt(dataReadFromFile.get(indexForCDTransactions)); cdTransaction++) {
+        				grabAtIndexFromList++;
+        				//Transaction.readFromString(dataReadFromFile.get(grabAtIndexFromList));
+        				System.out.println("At line " + grabAtIndexFromList + " added: " + dataReadFromFile.get(grabAtIndexFromList));
+        				//Needs to do something with adding to savings transactions list
+        			}
+        		}		
+        	}
+        	grabAtIndexFromList++; //Should be 48 here
+        	int indexForFraud = grabAtIndexFromList;
+        	for(int addFraud = 0; addFraud < Integer.parseInt(dataReadFromFile.get(indexForFraud)); addFraud++) {
+        		grabAtIndexFromList++;
+        		System.out.println("At line " + grabAtIndexFromList + " added: " + dataReadFromFile.get(grabAtIndexFromList));
+        		//Needs to do something with adding to Fraud Queue list
+        	}
+        	System.out.println("First account holder's name: " + listOfAccounts.get(0).getFirstName());
+        	System.out.println("Second account holder's name: " + listOfAccounts.get(1).getFirstName());
         	return true;
         } catch (Exception e) {
 			return false;
@@ -114,7 +145,7 @@ private static long accountNumber;
 		} 
 	}
 
-	static AccountHolder[] sortAccountHolders() { //Required method
+	static AccountHolder[] sortAccountHolders() {
 		AccountHolder[] resultAccountHolder = new AccountHolder[listOfAccounts.size()];
 		Collections.sort(listOfAccounts);
 		for(int i = 0 ; i < listOfAccounts.size(); i++) {
@@ -123,7 +154,7 @@ private static long accountNumber;
 		return resultAccountHolder;
 	}
 	
-	static void setNextAccountNumber(long nextAccountNumber) { //REQUIRED METHOD
+	static void setNextAccountNumber(long nextAccountNumber) {
 		accountNumber = nextAccountNumber;
 	}
 	static long getNextAccountNumber() {
