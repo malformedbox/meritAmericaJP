@@ -52,27 +52,25 @@ public class AccountHolder implements Comparable<AccountHolder>{
 			System.out.println("AH offering");
 			throw new Exception();
 		}	
-	}
-	
-	public CheckingAccount addCheckingAccount(double openingBalance) throws ExceedsCombinedBalanceLimitException{
-		//If combined balance limit is exceeded, throw ExceedsCombinedBalanceLimitException
-		//Should also add a deposit transaction with the opening balance
+	}	
+	public CheckingAccount addCheckingAccount(double openingBalance) 
+			throws ExceedsCombinedBalanceLimitException{
 		if((openingBalance + getCombinedBalance() - getCDBalance()) < BALANCE_LIMIT) {
 			return addCheckingAccount(new CheckingAccount(openingBalance));	
+		}else if((openingBalance + getCombinedBalance() - getCDBalance()) > BALANCE_LIMIT) {
+			throw new ExceedsCombinedBalanceLimitException("Exceeded combined balance limit.");
 		}
-		System.out.println("Cannot add any more checking accounts. "
-				+ "Combined balances from Checking and Savings "
-				+ "account exceed the limit of $" + BALANCE_LIMIT);
 		return null;	
 	}
-	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount) throws ExceedsCombinedBalanceLimitException{
-		//If combined balance limit is exceeded, throw ExceedsCombinedBalanceLimitException
-		//Should also add a deposit transaction with the opening balance
+	public CheckingAccount addCheckingAccount(CheckingAccount checkingAccount) 
+			throws ExceedsCombinedBalanceLimitException{
 		if((checkingAccount.getBalance() + getCombinedBalance() - getCDBalance()) < BALANCE_LIMIT) {
 			listOfCheckingAccounts.add(checkingAccount);
 			return checkingAccount;
+		} else if((getCombinedBalance() - getCDBalance()) > BALANCE_LIMIT) {
+			throw new ExceedsCombinedBalanceLimitException("Exceeded combined balance limit.");
 		}
-		return null;
+		return checkingAccount;
 	}
 	ArrayList<CheckingAccount> getCheckingAccounts() {
 		return listOfCheckingAccounts;
@@ -91,25 +89,24 @@ public class AccountHolder implements Comparable<AccountHolder>{
 		double combinedBalance = getCheckingBalance() + getSavingsBalance() + getCDBalance();		
 		return combinedBalance;
 	}
-	public SavingsAccount addSavingsAccount(double openingBalance) throws ExceedsCombinedBalanceLimitException{
-		//If combined balance limit is exceeded, throw ExceedsCombinedBalanceLimitException
-		//Should also add a deposit transaction with the opening balance
+	public SavingsAccount addSavingsAccount(double openingBalance) 
+			throws ExceedsCombinedBalanceLimitException{
 		if((openingBalance + getCombinedBalance() - getCDBalance()) < BALANCE_LIMIT) {
 			return addSavingsAccount(new SavingsAccount(openingBalance));	
+		}else if((openingBalance + getCombinedBalance() - getCDBalance()) > BALANCE_LIMIT) {
+			throw new ExceedsCombinedBalanceLimitException("Exceeded combined balance limit.");
 		}
-		System.out.println("Cannot add any more checking accounts. "
-				+ "Combined balances from Checking and Savings "
-				+ "account exceed the limit of $" + BALANCE_LIMIT);
 		return null;	
 	}
-	SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) throws ExceedsCombinedBalanceLimitException{
-		//If combined balance limit is exceeded, throw ExceedsCombinedBalanceLimitException
-		//Should also add a deposit transaction with the opening balance
+	SavingsAccount addSavingsAccount(SavingsAccount savingsAccount) 
+			throws ExceedsCombinedBalanceLimitException{
 		if((savingsAccount.getBalance() + getCombinedBalance() - getCDBalance()) < BALANCE_LIMIT) {
 			listOfSavingsAccounts.add(savingsAccount);
 			return savingsAccount;
-		}
-		return null;
+		} else if((getCombinedBalance() - getCDBalance()) > BALANCE_LIMIT) {
+			throw new ExceedsCombinedBalanceLimitException("Exceeded combined balance limit.");
+		}	
+		return savingsAccount;
 	}
 	ArrayList<SavingsAccount> getSavingsAccounts() {
 		return listOfSavingsAccounts;
@@ -124,12 +121,18 @@ public class AccountHolder implements Comparable<AccountHolder>{
 		}
 		return balance;
 	}
-	CDAccount addCDAccount(CDOffering offering, double openingBalance) {
-		//Should also add a deposit transaction with the opening balance
-		return addCDAccount(new CDAccount(offering, openingBalance));
+	CDAccount addCDAccount(CDOffering offering, double openingBalance) 
+			throws ExceedsFraudSuspicionLimitException, 
+			NegativeAmountException {
+		if(openingBalance > 1000) {
+			throw new ExceedsFraudSuspicionLimitException("Opening balance exceeds 1000.");
+		} else if(openingBalance < 0) {
+			throw new NegativeAmountException("Cannot deposit a negative amount.");
+		} else {
+			return addCDAccount(new CDAccount(offering, openingBalance));
+		}
 	}
-	CDAccount addCDAccount(CDAccount cdAccount) {
-		//Should also add a deposit transaction with the opening balance
+	CDAccount addCDAccount(CDAccount cdAccount){
 		listOfCDAccounts.add(cdAccount);
 		return cdAccount;
 	}
@@ -151,8 +154,25 @@ public class AccountHolder implements Comparable<AccountHolder>{
 		return (int) (this.getCombinedBalance()-((AccountHolder) ah).getCombinedBalance());
 	}
 	String writeToString() {
-		//Doe,,John,1234567890
-		return getLastName() + "," + getMiddleName() + "," + getFirstName() + "," + getSSN();
+		/*StringBuilder sb = new StringBuilder(getLastName()).append(",").append(getMiddleName()).append(",").append(getFirstName()).append(",").append(getSSN()).append(System.lineSeparator());
+		sb.append(this.getNumberOfCheckingAccounts()).append(System.lineSeparator());
+		
+		for(CheckingAccount checking : this.listOfCheckingAccounts) {
+			sb.append(checking.writeToString()).append(System.lineSeparator());
+			sb.append(checking.getTransactions().size()).append(System.lineSeparator());
+			for(Transaction transaction : checking.getTransactions()) sb.append(transaction.writeToString()).append(System.lineSeparator());
+		}
+		for(SavingsAccount savings : this.listOfSavingsAccounts) {
+			sb.append(savings.writeToString()).append(System.lineSeparator());
+			sb.append(savings.getTransactions().size()).append(System.lineSeparator());
+			for(Transaction transaction : savings.getTransactions()) sb.append(transaction.writeToString()).append(System.lineSeparator());
+		}
+		for(CDAccount cd : this.listOfCDAccounts) {
+			sb.append(cd.writeToString()).append(System.lineSeparator());
+			sb.append(cd.getTransactions().size()).append(System.lineSeparator());
+			for(Transaction transaction : cd.getTransactions()) sb.append(transaction.writeToString()).append(System.lineSeparator());
+		}
+		return sb.toString();*/
+		return "";
 	}
-
 }

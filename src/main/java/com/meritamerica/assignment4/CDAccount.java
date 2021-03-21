@@ -22,8 +22,8 @@ public class CDAccount extends BankAccount {
 	public long getAccountNumber() {
 		return super.accountNumber;
 	}
-	public double futureValue() {
-		return getBalance() * Math.pow(1 + getInterestRate(), getTerm());
+	public double futureValue() throws NegativeAmountException, ExceedsFraudSuspicionLimitException{
+		return getBalance() * MeritBank.recursiveFutureValue(1, getTerm(), getInterestRate());
 	}
 	@Override
 	boolean withdraw(double amount) {

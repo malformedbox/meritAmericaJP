@@ -1,6 +1,7 @@
 package com.meritamerica.assignment4;
 
 import java.text.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BankAccount {
@@ -8,6 +9,7 @@ public abstract class BankAccount {
 	protected double interestRate;
 	protected long accountNumber;
 	protected java.util.Date startDate;
+	private static List<Transaction> listOfTransactions = new ArrayList<Transaction>();
 	
 	BankAccount(){} //Default constructor
 	BankAccount(double balance, double interestRate) { //REQUIRED
@@ -77,11 +79,10 @@ public abstract class BankAccount {
 				+ interestFormat.format(getInterestRate()) + "," 
 				+ dateFormatter.format(getOpenedOn());
 	}
-	public void addTransaction(Transaction transaction) {
-		
+	public static void addTransaction(Transaction transaction) {
+		listOfTransactions.add(transaction);
 	}
-	public List<Transaction> getTransactions(){
-		return null;
+	public static List<Transaction> getTransactions(){
+		return listOfTransactions;
 	}
-
 }
