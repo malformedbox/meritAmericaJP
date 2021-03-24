@@ -5,8 +5,13 @@
 
   <modelVersion>4.0.0</modelVersion>
 
+<<<<<<< HEAD
   <groupId>com.meritamerica.assignment3</groupId>
   <artifactId>assignment3</artifactId>
+=======
+  <groupId>com.meritamerica.assignment4</groupId>
+  <artifactId>assignment4</artifactId>
+>>>>>>> b924eb5606274903ce54045909c95c089d98132e
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -49,7 +54,11 @@
         <artifactId>exec-maven-plugin</artifactId>
         <version>1.2.1</version>
         <configuration>
+<<<<<<< HEAD
             <mainClass>com.meritamerica.assignment3.MeritAmericaBankApp</mainClass>
+=======
+            <mainClass>com.meritamerica.assignment4.MeritAmericaBankApp</mainClass>
+>>>>>>> b924eb5606274903ce54045909c95c089d98132e
         </configuration>
       </plugin>
     </plugins>
