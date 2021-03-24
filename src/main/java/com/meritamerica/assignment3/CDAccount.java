@@ -52,7 +52,6 @@ public class CDAccount extends BankAccount {
 					Double.parseDouble(parts[1]), Double.parseDouble(parts[2]), 
 					dateFormatter.parse(parts[3]), Integer.parseInt(parts[4]));
 		}else {
-			System.out.println("failing CD account");
 			throw new NumberFormatException();
 		}
 	}
