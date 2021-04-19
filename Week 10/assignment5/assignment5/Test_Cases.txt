@@ -1,0 +1,40 @@
+CDOffering controller
+	POST
+	- Successful creation will return HTTP 201 with proper JSON containing an incrementing "id", 
+	"interestRate" and "term".
+	- Will check body if there are: "interestRate" & "term". HTTP 400 if unsuccessful.
+	- Will check body if "interestRate" & "term" have correct values. HTTP 400 if unsuccessful.
+
+	GET
+	- Will return an array with the type CDOffering
+
+AccountHolder
+	POST
+	- Successful creation will return HTTP 201 with proper JSON containing an incrementing "id", 
+	"firstName", "middleName", "lastName", "ssn", "checkingAccounts", "savingsAccounts", "cdAccounts", 	"numberOfCheckingAccounts", "checkingBalance", numberOfCheckingAccounts", "savingsBalance", 	"numberOfCDAccounts", "cdBalance", "combinedBalance"
+	- Will check body if there are: "firstName", "lastName", and "ssn". HTTP 400 if unsuccessful.
+
+	GET
+	- Will return an array of account holders and HTTP 200 on success
+
+	GET /AccountHolders/{id}
+	- Uses id from path to find the index of the account holder. If there is no account at that index, 	returns HTTP 404.
+	- Will return account holder and HTTP 200 on success
+
+	POST /AccountHolders/{id}/CheckingAccounts
+	POST /AccountHolders/{id}/SavingsAccounts
+	- Will check body if there is: "balance" listed. If balance is < 0, or if combined balance > 250000, 	HTTP 400. If account at that path does not exist, HTTP 404.
+	- Successful creation will return HTTP 201 with proper JSON containing an incrementing "accountNumber", 	"balance", "interestRate", "openedOn"
+
+	GET /AccountHolders/{id}/CheckingAccounts
+	GET /AccountHolders/{id}/SavingsAccounts
+	- Will return an array with the type CheckingAccount/SavingsAccount
+	- Successful creation will return HTTP 200 with proper JSON containing an incrementing "accountNumber", 	"balance", "interestRate", "openedOn"
+
+	POST /AccountHolders/{id}/CDAccounts
+	- Will check body if there is: "balance" listed. If balance is < 0 or missing, HTTP 400. If account at 	that path does not exist, HTTP 404. If "interestRate" or "term" is missing, HTTP 400. If "interestRate" 	is <= 0 or >= 1, or if term is < 1, HTTP 400.
+	- Successful creation will return HTTP 201 with proper JSON containing an incrementing "accountNumber", 	"balance", "interestRate", "openedOn", "cdOffering"
+
+	GET /AccountHolders/{id}/CDAccounts
+	- Will return an array with the type CDAaccount
+	- Success will return HTTP 200 with proper JSON containing an incrementing "accountNumber", 		"balance", "interestRate", "openedOn", "cdOffering"
