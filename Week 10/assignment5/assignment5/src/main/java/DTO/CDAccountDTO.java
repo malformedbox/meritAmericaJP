@@ -8,7 +8,7 @@ import com.meritamerica.assignment5.CDOffering;
 public class CDAccountDTO {
 
 	private double balance;
-	//private CDOffering cdOffering;
+	private CDOffering cdOffering;
 	private int id;
 	private double interestRate;
 	private int term;
@@ -31,14 +31,13 @@ public class CDAccountDTO {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
-	/*
+	
 	public CDOffering getCdOffering() {
 		return cdOffering;
 	}
 	public void setCdOffering(CDOffering cdOffering) {
 		this.cdOffering = cdOffering;
 	}
-	*/
 	public int getId() {
 		return id;
 	}

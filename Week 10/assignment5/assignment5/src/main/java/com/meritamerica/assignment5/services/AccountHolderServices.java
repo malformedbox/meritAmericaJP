@@ -103,7 +103,7 @@ public class AccountHolderServices {
 		}
 		return MeritBank.listOfAccounts.get(id).getCDAccounts();
 	}
-	public CDAccount addCD(CDAccountDTO cdDTO, @PathVariable int id) 
+	public CDAccount addCD(@RequestBody CDAccountDTO cdDTO, @PathVariable int id) 
 			throws NoSuchResourceFoundException, ExceedsFraudSuspicionLimitException, NegativeAmountException, DoesNotExistException {
 		if(id > MeritBank.listOfAccounts.size() - 1 || id < 0) {
 			throw new DoesNotExistException("No account holder exists with the given ID.");

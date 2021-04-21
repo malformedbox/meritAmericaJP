@@ -178,6 +178,9 @@ public class MeritBank {
 		accountNumber += 1;
 		return accountNumber;
 	}
+	public static AccountHolder getAccountHolderById(int id) {
+		return listOfAccounts.get(id);
+	}
 	static void clearCDOfferings() {
 		listOfOfferings = null;
 	}
@@ -186,6 +189,9 @@ public class MeritBank {
 	}
 	static CDOffering[] getCDOfferings() {
 		return listOfOfferings;
+	}
+	public static CDOffering getCDOfferingById(int id) {
+		return listOfOfferingsAL.get(id);
 	}
 	static void setCDOfferings(CDOffering[] offerings) {
 		listOfOfferings = offerings;

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.meritamerica.assignment5.AccountHolder;
 import com.meritamerica.assignment5.CDAccount;
+import com.meritamerica.assignment5.CDOffering;
 import com.meritamerica.assignment5.CheckingAccount;
 import com.meritamerica.assignment5.ExceedsCombinedBalanceLimitException;
 import com.meritamerica.assignment5.ExceedsFraudSuspicionLimitException;
@@ -89,7 +90,18 @@ public class AccountHolderController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public @ResponseBody CDAccount addCDAccount(@RequestBody @Valid CDAccountDTO cdDTO, @PathVariable int id) 
 			throws NoSuchResourceFoundException, ExceedsFraudSuspicionLimitException, NegativeAmountException, DoesNotExistException {
-		return ahService.addCD(cdDTO, id);
+		if(id <= MeritBank.listOfAccounts.size()) {
+			AccountHolder accountHolder = MeritBank.getAccountHolderById(id);
+			CDOffering cdo = MeritBank.getCDOfferingById(cdDTO.getCdOffering().getId());
+			CDAccount cda = new CDAccount(cdo, cdDTO.getBalance());
+			
+			if(cda.getBalance() < 0) {
+				throw new NegativeAmountException("Balance cannot be negative.");
+			}
+			accountHolder.addCDAccount(cda);
+			return cda;
+		}
+		throw new NoSuchResourceFoundException("Invalid id");
 	}
 	
 	//GET /AccountHolders/{id}/CDAccounts

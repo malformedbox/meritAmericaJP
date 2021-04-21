@@ -66,7 +66,7 @@ public class AccountHolder implements Comparable<AccountHolder>{
 			throw new Exception();
 		}	
 	}	
-	
+
 	public CheckingAccount addCheckingAccount(double openingBalance) 
 			throws ExceedsCombinedBalanceLimitException{
 		if((openingBalance + getCombinedBalance() - getCDBalance()) < BALANCE_LIMIT) {
@@ -146,7 +146,7 @@ public class AccountHolder implements Comparable<AccountHolder>{
 			return addCDAccount(new CDAccount(offering, openingBalance));
 		}
 	}
-	CDAccount addCDAccount(CDAccount cdAccount){
+	public CDAccount addCDAccount(CDAccount cdAccount){
 		listOfCDAccounts.add(cdAccount);
 		return cdAccount;
 	}
