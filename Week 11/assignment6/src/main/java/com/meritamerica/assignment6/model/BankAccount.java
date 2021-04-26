@@ -37,13 +37,16 @@ public class BankAccount {
 //	private AccountHolder accHolder;
 	
 	public BankAccount(){} //Default constructor
-	BankAccount(double balance, double interestRate) { //REQUIRED
+	public BankAccount(double balance) {
+		this.balance = balance;
+	}
+	public BankAccount(double balance, double interestRate) { //REQUIRED
 		this.accountNumber = MeritBank.getNextAccountNumber();
 		this.balance = balance;
 		this.interestRate = interestRate;
 		this.openedOn = System.currentTimeMillis();
 	}
-	BankAccount(double balance, double interestRate, long accountOpenedOn){ //REQUIRED
+	public BankAccount(double balance, double interestRate, long accountOpenedOn){ //REQUIRED
 		this.accountNumber = MeritBank.getNextAccountNumber();
 		this.balance = balance;
 		this.interestRate = interestRate;

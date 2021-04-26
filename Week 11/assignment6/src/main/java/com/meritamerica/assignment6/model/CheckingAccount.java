@@ -1,6 +1,7 @@
 package com.meritamerica.assignment6.model;
 
 import java.text.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,7 @@ public class CheckingAccount extends BankAccount {
 	
 	@ManyToOne
 	@JoinColumn(name = "accHolder_id")
+	@JsonIgnore
 	private AccountHolder accHolder;
 	
 	public Long getId() {
@@ -35,8 +37,11 @@ public class CheckingAccount extends BankAccount {
 	
 	public CheckingAccount() {}
 	public CheckingAccount(double openingBalance) {
-		super(openingBalance, 0.0001);
-		
+		super(openingBalance, 0.0001);	
+	}
+	public CheckingAccount(double balance, AccountHolder ah) {
+		super(balance, 0.0001);
+		this.accHolder = ah;
 	}
 	public CheckingAccount(long accountNumber, double balance, 
 			double interestRate, long accountOpenedOn){

@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.meritamerica.assignment6.model.exceptions.ExceedsFraudSuspicionLimitException;
 import com.meritamerica.assignment6.model.exceptions.NegativeAmountException;
 
@@ -21,6 +22,7 @@ public class CDAccount extends BankAccount {
 	
 	@ManyToOne
 	@JoinColumn(name = "accHolder_id")
+	@JsonIgnore
 	private AccountHolder accHolder;
 	
 	public Long getId() {
@@ -45,6 +47,10 @@ public class CDAccount extends BankAccount {
 	public CDAccount(CDOffering offering, double balance) {
 		super(balance, offering.getInterestRate(), System.currentTimeMillis());
 		//this.term = offering.getTerm();
+	}
+	public CDAccount(CDOffering offering, double balance, AccountHolder ah) {
+		super(balance);
+		this.accHolder = ah;
 	}
 	public CDAccount(long accountNumber, double balance, 
 			double interestRate, long accountOpenedOn, int term){ //REQUIRED

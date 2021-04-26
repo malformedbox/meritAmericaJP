@@ -1,6 +1,9 @@
 package com.meritamerica.assignment6.model;
 
 import java.text.*;
+import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+
 
 @Entity
 public class SavingsAccount extends BankAccount{	
@@ -18,6 +21,7 @@ public class SavingsAccount extends BankAccount{
 	
 	@ManyToOne
 	@JoinColumn(name = "accHolder_id")
+	@JsonIgnore
 	private AccountHolder accHolder;
 	
 	public Long getId() {
@@ -34,6 +38,10 @@ public class SavingsAccount extends BankAccount{
 	}
 	
 	public SavingsAccount() {}
+	public SavingsAccount(double balance, AccountHolder ah) {
+		this.balance = balance;
+		this.accHolder = ah;
+	}
 	public SavingsAccount(double openingBalance) {
 		super(openingBalance, 0.01);
 	}

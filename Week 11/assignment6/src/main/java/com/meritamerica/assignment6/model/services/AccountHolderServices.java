@@ -69,6 +69,7 @@ public class AccountHolderServices {
 		AccountHolder ah = ahDetailService.getAccountHolderById(id);
 		return checkingRepository.findAllByaccHolder(ah);
 	}
+	
 	public CheckingAccount addChecking(CheckingAccountDTO checkingDTO, Long id) 
 			throws NoSuchResourceFoundException, ExceedsCombinedBalanceLimitException, DoesNotExistException {
 		if(checkingDTO.getBalance() < 0) {
@@ -79,7 +80,8 @@ public class AccountHolderServices {
 		if(checkingDTO.getBalance() + ah.getCombinedBalance() > 250000) {
 			throw new NoSuchResourceFoundException("Balance exceeds 250,000 limit.");
 		}*/
-		CheckingAccount newChecking = new CheckingAccount(checkingDTO.getBalance());
+		AccountHolder ah = getAccountById(id);
+		CheckingAccount newChecking = new CheckingAccount(checkingDTO.getBalance(), ah);
 		return checkingRepository.save(newChecking);
 	}
 	//===================================================================================================
@@ -101,7 +103,8 @@ public class AccountHolderServices {
 		if(savingsDTO.getBalance() + ah.getCombinedBalance() > 250000) {
 			throw new NoSuchResourceFoundException("Balance exceeds 250,000 limit.");
 		}*/
-		SavingsAccount newSavings = new SavingsAccount(savingsDTO.getBalance());
+		AccountHolder ah = getAccountById(id);
+		SavingsAccount newSavings = new SavingsAccount(savingsDTO.getBalance(), ah);
 		return savingsRepository.save(newSavings);		
 	}
 	//===================================================================================================
@@ -125,7 +128,8 @@ public class AccountHolderServices {
 		if(cdDTO.getTerm() < 1) {
 			throw new NegativeAmountException("Invalid term.");
 		}
-		CDAccount newCD = new CDAccount(cdDTO.getCdOffering(), cdDTO.getBalance());
+		AccountHolder ah = getAccountById(id);
+		CDAccount newCD = new CDAccount(cdDTO.getCdOffering(), cdDTO.getBalance(), ah);
 		return cdRepository.save(newCD);
 	}
 }
