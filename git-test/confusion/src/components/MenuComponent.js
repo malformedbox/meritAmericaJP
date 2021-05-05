@@ -69,6 +69,7 @@ class Menu extends Component {
                       <CardTitle>{dish.name}</CardTitle>
                     </CardImgOverlay>
                 </Card>
+
               </div>
             );
         });
