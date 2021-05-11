@@ -16,6 +16,7 @@ import com.meritamerica.assignment7.model.CDAccount;
 import com.meritamerica.assignment7.model.CheckingAccount;
 import com.meritamerica.assignment7.model.MeritBank;
 import com.meritamerica.assignment7.model.SavingsAccount;
+import com.meritamerica.assignment7.model.User;
 import com.meritamerica.assignment7.model.exceptions.DoesNotExistException;
 import com.meritamerica.assignment7.model.exceptions.ExceedsCombinedBalanceLimitException;
 import com.meritamerica.assignment7.model.exceptions.ExceedsFraudSuspicionLimitException;
@@ -25,6 +26,7 @@ import com.meritamerica.assignment7.model.repository.AccountHolderRepository;
 import com.meritamerica.assignment7.model.repository.CDAccountRepository;
 import com.meritamerica.assignment7.model.repository.CheckingAccountRepository;
 import com.meritamerica.assignment7.model.repository.SavingsAccountRepository;
+import com.meritamerica.assignment7.model.repository.UserRepository;
 
 import DTO.AccountHolderDTO;
 import DTO.CDAccountDTO;
@@ -46,8 +48,9 @@ public class AccountHolderServices {
 	SavingsAccountRepository savingsRepository;
 	@Autowired
 	CDAccountRepository cdRepository;
+	@Autowired
+	UserRepository userRepository;
 	
-	//public AccountHolderServices() {}
 
 	public List<AccountHolder> getAllAccounts(){
 		return accRepository.findAll();
@@ -56,8 +59,12 @@ public class AccountHolderServices {
 		if(accDTO.getFirstName().isBlank() || accDTO.getLastName().isBlank() || accDTO.getSsn().isBlank()) {
 			throw new NoSuchResourceFoundException("First name, last name, or SSN are incorrect."); 
 		}
+		User user = userRepository.findById(accDTO.getUserId()).orElse(null);
+		if(user==null) {
+			throw new NoSuchResourceFoundException("Id does not exist");
+		}
 		AccountHolder newAcc = new AccountHolder(accDTO.getFirstName(), accDTO.getMiddleName(), 
-				accDTO.getLastName(), accDTO.getSsn());
+				accDTO.getLastName(), accDTO.getSsn(), user);
 		return accRepository.save(newAcc);
 	}
 	public AccountHolder getAccountById(Long id) throws DoesNotExistException {
@@ -92,9 +99,6 @@ public class AccountHolderServices {
 	}
 	public SavingsAccount addSavings(SavingsAccountDTO savingsDTO, @PathVariable Long id) 
 			throws NoSuchResourceFoundException, ExceedsCombinedBalanceLimitException, DoesNotExistException {
-		if(id > MeritBank.listOfAccounts.size() - 1 || id < 0) {
-			throw new DoesNotExistException("No account holder exists with the given ID.");
-		}
 		if(savingsDTO.getBalance() < 0) {
 			LOGGER.log(Level.SEVERE, "Balance below 0");
 			throw new NoSuchResourceFoundException("Invalid balance.");

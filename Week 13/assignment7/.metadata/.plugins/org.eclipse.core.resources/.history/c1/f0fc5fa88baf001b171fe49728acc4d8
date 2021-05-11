@@ -1,0 +1,29 @@
+package DTO;
+
+import java.util.List;
+
+import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
+@Data
+@RequiredArgsConstructor
+public class JwtResponse {
+	public JwtResponse(String jwt, Long id2, String username, List<String> roles2) {
+		// TODO Auto-generated constructor stub
+	}
+
+	@NonNull
+	private String token;
+
+	private String type = "Bearer";
+
+	@NonNull
+	private Long id;
+
+	@NonNull
+	private String email;
+
+	@NonNull
+	private List<String> roles;
+}

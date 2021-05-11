@@ -17,6 +17,9 @@ import com.meritamerica.assignment7.model.exceptions.ExceedsCombinedBalanceLimit
 import com.meritamerica.assignment7.model.exceptions.ExceedsFraudSuspicionLimitException;
 import com.meritamerica.assignment7.model.exceptions.NegativeAmountException;
 
+import lombok.Data;
+
+@Data
 @Entity
 @Table(name = "accountHolders") //if not declared, will just take the class's name
 public class AccountHolder implements Comparable<AccountHolder>{
@@ -29,6 +32,8 @@ public class AccountHolder implements Comparable<AccountHolder>{
 	private String middleName; 
 	private String lastName;
 	private String ssn;
+	
+	private String username;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private User user;
@@ -43,13 +48,15 @@ public class AccountHolder implements Comparable<AccountHolder>{
 	private List<CDAccount> listOfCDAccounts = new ArrayList<CDAccount>();
 
 	public AccountHolder() {}
-	public AccountHolder(String firstName, String middleName, String lastName, String ssn) {
+	public AccountHolder(String firstName, String middleName, String lastName, String ssn, User user) {
 		this.firstName = firstName;
 		this.middleName = middleName; 
 		this.lastName = lastName; 
 		this.ssn = ssn;
+		this.user = user;
+		username = user.getUsername();
 	}
-	
+	/*
 	public Long getId() {
 		return id;
 	}
@@ -80,7 +87,7 @@ public class AccountHolder implements Comparable<AccountHolder>{
 	public void setSSN(String ssn) {
 		this.ssn = ssn;
 	}
-	
+	*/
 	public User getAccountHoldersContactDetails() {
 		return user;
 	}

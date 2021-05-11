@@ -12,4 +12,5 @@ import com.meritamerica.assignment7.model.AccountHolder;
 public interface AccountHolderRepository extends CrudRepository<AccountHolder, Long> {
 	List<AccountHolder> findAll();
 	//List<AccountHolder> findAllById(AccountHolder ah);
+	Optional<AccountHolder> findByUsername(String username);
 }

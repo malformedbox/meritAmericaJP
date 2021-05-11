@@ -1,42 +1,51 @@
 package com.meritamerica.assignment7.model.security;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
+import com.meritamerica.assignment7.model.security.jwt.JwtTokenFilter;
 import com.meritamerica.assignment7.model.security.service.UserDetailsServiceImpl;
 
+@Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity( prePostEnabled = true )
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	DataSource dataSource;
-	@Autowired
 	UserDetailsServiceImpl userDetailService;
+	
+	@Autowired
+	private JwtTokenFilter jwtTokenFilter;
+	
+	@Bean
+	public JwtTokenFilter authenticationJwtTokenFilter() { return new JwtTokenFilter();}
 	
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		// + from users <- can be used to rename the column
-		//auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
-		
-		auth.jdbcAuthentication()
-			.dataSource(dataSource)
-			.usersByUsernameQuery("select username,password,enabled "
-					+ "from users "
-					+ "where username = ?")
-			.authoritiesByUsernameQuery("select username, authority "
-					+ "from authorities "
-					+ "where username = ?");
+		auth.userDetailsService(userDetailService).passwordEncoder(passwordEncoder());
+		auth.inMemoryAuthentication()
+			.withUser("admin")
+			.password("admin")
+			.roles("ADMIN");
 	}
 	
 	@Bean
@@ -46,14 +55,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public PasswordEncoder passwordEncoder() { return NoOpPasswordEncoder.getInstance();}
+	public PasswordEncoder passwordEncoder() { 
+		return new BCryptPasswordEncoder();
+		//return NoOpPasswordEncoder.getInstance();
+	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
-		http.authorizeRequests()
-				.antMatchers("/admin").hasRole("ADMIN")
-				.antMatchers("/user").hasAnyRole("ADMIN", "USER")
-				.antMatchers("/").permitAll()
-				.and().formLogin();
+    	http.cors().and().csrf().disable()
+    		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+    		.authorizeRequests()
+    		.antMatchers("/**").permitAll()
+    		.anyRequest()
+    		.authenticated();
+    	
+    	http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
+    	
+
+	 	http.headers().frameOptions().disable();
 	}
 }

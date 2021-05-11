@@ -15,14 +15,18 @@ import DTO.SignupRequest;
 @Service
 public class UserServices {
 	@Autowired
-	UserRepository ahDetailsRepo;
+	UserRepository userRepo;
 	@Autowired
 	AccountHolderRepository ahRepo;
 	
 	public UserServices() {}
 	
 	public List<User> getAllDetails(){
-		return ahDetailsRepo.findAll();
+		return userRepo.findAll();
+	}
+	public AccountHolder getAccByUsername(String username) {
+		AccountHolder ah = ahRepo.findByUsername(username).orElse(null);
+		return ah;
 	}
 	
 	public AccountHolder getAccountHolderById(Long accid) {
@@ -30,10 +34,11 @@ public class UserServices {
 		return ah;
 	}
 	public User getAccountHoldersContactDetailsById(Long id) {
-		return ahDetailsRepo.findById(id).orElse(null);
+		return userRepo.findById(id).orElse(null);
 	}
 	public User addAccountHoldersContactDetails(SignupRequest ahDetailDTO) {
-		User newDetail = new User(ahDetailDTO.getUsername(), ahDetailDTO.getPassword());
-		return ahDetailsRepo.save(newDetail);
+		User newDetail = new User(ahDetailDTO.getRole(), ahDetailDTO.getUsername(), ahDetailDTO.getPassword());
+		return userRepo.save(newDetail);
 	}
+
 }

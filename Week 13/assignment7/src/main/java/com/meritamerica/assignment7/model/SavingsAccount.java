@@ -38,16 +38,16 @@ public class SavingsAccount extends BankAccount{
 	}
 	
 	public SavingsAccount() {}
+	public SavingsAccount(double openingBalance) {
+		super(openingBalance, 0.01);	
+	}
 	public SavingsAccount(double balance, AccountHolder ah) {
-		this.balance = balance;
+		super(balance, 0.01);
 		this.accHolder = ah;
 	}
-	public SavingsAccount(double openingBalance) {
-		super(openingBalance, 0.01);
-	}
 	public SavingsAccount(long accountNumber, double balance, 
-			double interestRate, long openedOn){ //REQUIRED
-		super(accountNumber, balance, interestRate, openedOn);
+			double interestRate, long accountOpenedOn){
+		super(accountNumber, balance, interestRate, accountOpenedOn);
 	}
 	
 	static SavingsAccount readFromString(String accountData) throws ParseException{

@@ -26,7 +26,7 @@ public class MeritBank {
 	static ArrayList<String> dataReadFromFile;
 	public static List<AccountHolder> listOfAccounts;
 	public static Map<Long, BankAccount> mapOfAccounts;
-	public static List<CDOffering> listOfOfferings;
+	public static List<CDOffering> listOfOfferings = new ArrayList<>();
 		
 	public long getId() {
 		return id;
@@ -58,10 +58,6 @@ public class MeritBank {
 	static void clearCDOfferings() {
 		listOfOfferings = null;
 	}
-	/*
-	static void addCDOfferings() {
-		
-	}*/
 	static List<CDOffering> getCDOfferings() {
 		return listOfOfferings;
 	}

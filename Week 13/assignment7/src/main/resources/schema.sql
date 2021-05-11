@@ -10,3 +10,12 @@ create table authorities (
     constraint fk_authorities_users foreign key(username) references users(username)
 );
 create unique index ix_auth_username on authorities (username,authority);
+
+create table user(
+    id bigint,
+    active boolean not null,
+    password varchar(120),
+    role varchar(255),
+    username varchar(50),
+    acc_holder_id bigint
+);

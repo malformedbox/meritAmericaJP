@@ -9,3 +9,6 @@ INSERT INTO authorities(username, authority)
 	
 INSERT INTO authorities(username, authority)
 	values('admin', 'ROLE_ADMIN');
+
+INSERT INTO user (id, active, password, role, username, acc_holder_id)
+	values(1,true,'admin','role_admin','admin',null);
