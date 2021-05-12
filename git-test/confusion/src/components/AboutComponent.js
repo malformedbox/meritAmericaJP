@@ -1,39 +1,27 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Fragment } from 'react';
 
 function RenderLeader({leader}) {
-    return(
-        <div> 
-            <Media query="(max-width: 599px)" render={() =>
-            (
-                <p>{leader.image}</p>
-            )}
-            />
-        </div>
-    );
+    return ( 
+        <Media>
+            <Media left href="#">
+                <img src={leader.image} alt="leaderImage.png" />
+            </Media>
+            <div className="ml-5">
+                <h5><b>{leader.name}</b></h5>
+                <p>{leader.designation}</p>
+                <p>Description {leader.description}</p>
+            </div>
+        </Media>
+    )
 }
 
 function About(props) {
 
     const leaders = props.leaders.map((leader) => {
         return (
-            <div className="container">
-                <div className="row row-content">
-                    <div className="col-12">
-                        <div className="row">
-                            <h5>{leader.name}</h5>
-                        </div>
-                        <div className="row">
-                            <p>{leader.designation}</p>
-                        </div>
-                        <div className="row">
-                            <p>Description {leader.description}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <RenderLeader leader={(leader)}/>
         );
     });
 
