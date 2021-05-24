@@ -1,55 +1,83 @@
-import React  from 'react';
-import { Card, CardImg, CardBody, CardText, CardTitle, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import React, { Component } from 'react'
+import { Card, CardImg, CardText, CardBody, CardTitle, 
+    Breadcrumb, BreadcrumbItem, Button,
+    Modal, ModalHeader, ModalBody, ModalFooter,
+    Row, Col, Label
+  } from 'reactstrap'
 import { Link } from 'react-router-dom';
+import { LocalForm, Control, Errors } from 'react-redux-form';
+import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
-    function RenderComments({comments}) {
-        if (comments != null) {
-            const cmnts = comments.map(comment => {
-                return (
-                    <li key={comment.id}>
-                        <p>{comment.comment}</p>
-                        <p>-- {comment.author},
-                    &nbsp;
-                    {new Intl.DateTimeFormat('en-US', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: '2-digit'
-                        }).format(new Date(comment.date))}
-                        </p>
-                    </li>
-                )
-            })
-            return (
-                <div className='col-12 col-md-5 m-1'>
-                    <h4> Comments </h4>
-                    <ul className='list-unstyled'>
-                        {cmnts}
-                    </ul>
-                </div>
-            )
-        }
-        else {
-            <div></div>
-            console.log("Empty comments")
-        }
-    }
-    function RenderDish({dish}) {
-        return (
-            <div className="col-12 col-md-5 m-1 ">
-                <Card>
-                    <CardImg width="100%" src={dish.image} />
-                    <CardBody>
-                        <CardTitle tag="h5">{dish.name}</CardTitle>
-                        <CardText>{dish.description}</CardText>
-                    </CardBody>
-
-                </Card>
-            </div>
-        )
-        
-    }
+function RenderDish({dish}) {
+	return (
+		<div className="col-12 col-md-5 m-1 ">
+			<FadeTransform in transformProps={{exitTransform: 'scale(0.5) translateY(-50%)'}}>
+				<Card>
+					<CardImg top src={baseUrl + dish.image} alt={dish.name} />
+					<CardBody>
+						<CardTitle>{dish.name}</CardTitle>
+						<CardText>{dish.description}</CardText>
+					</CardBody>
+				</Card>
+			</FadeTransform>
+		</div>
+	);
+}
+function RenderComments({comments, postComment, dishId}) {
+	if (comments != null) {
+		return (
+			<div className='col-12 col-md-5 m-1'>
+				<h4> Comments </h4>
+				<ul className='list-unstyled'>
+					<Stagger in>
+						{comments.map((comment) => {
+							return(
+								<Fade in>
+									<li key={comment.id}>
+										<p>{comment.comment}</p>
+										<p>-- {comment.author}, &nbsp; {new Intl.DateTimeFormat('en-US', {
+											year: 'numeric',
+											month: 'long',
+											day: '2-digit'
+											}).format(new Date(comment.date))}
+										</p>
+									</li>
+								</Fade>
+							);
+						})}
+					</Stagger>
+				</ul>
+				<CommentForm dishId= {dishId} postComment = {postComment} />
+			</div>
+		)
+	}
+	else {
+		<div></div>
+		console.log("Empty comments")
+	}
+}
     const DishDetail = (props) => {
-        if (props.dish != null) {
+		if(props.isLoading) {
+			return (
+				<div className="container">
+					<div className="row">
+						<Loading />
+					</div>
+				</div>
+			);
+		}
+		else if(props.errMess) {
+			return (
+				<div className="container">
+					<div className="row">
+						<h4>{props.errMess}</h4>
+					</div>
+				</div>
+			);
+		}
+        else if (props.dish != null) {
             return (
                 <div className="container">
                     <div className="row">
@@ -64,7 +92,9 @@ import { Link } from 'react-router-dom';
                     </div>
                     <div className="row">
                         <RenderDish dish={props.dish} />
-                        <RenderComments comments={(props.comments)}/>
+                        <RenderComments comments={(props.comments)}
+							postComment={props.postComment}
+							dishId={props.dish.id}/>
                     </div>
                 </div>
             );  
@@ -75,5 +105,101 @@ import { Link } from 'react-router-dom';
             )
         }
     }
+
+const minLength = (min) => (val) => val && val.length >= min 
+const maxLength = (max) => (val) => !val || val.length < max
+const required = (val) => val && val.length
+
+class CommentForm extends Component {
+    constructor (props) {
+		super (props)
+		this.state = {
+			isModalOpen: false
+		}
+		this.toggleModal = this.toggleModal.bind(this)
+		this.handlepostComment = this.handlepostComment.bind(this)
+	}
+
+    toggleModal () {
+		this.setState ({
+			isModalOpen: !this.state.isModalOpen
+		})
+	}
+
+	handlepostComment (values) {
+		this.toggleModal()
+		this.props.postComment(this.props.dishId, values.rating, values.name, values.comment);
+	}
+
+    render(){
+		return (
+			<div>
+				<Button outline onClick = {this.toggleModal}><span className = 'fa fa-pencil fa-lg'></span> Submit Comment</Button>
+				<Modal isOpen = {this.state.isModalOpen} toggle = {this.toggleModal} >
+					<ModalHeader toggle = {this.toggleModal} >Submit Comment</ModalHeader>
+					<LocalForm  className = 'container' onSubmit = {(values) => {this.handlepostComment(values)} }>
+						<ModalBody>
+							<Row className = 'form-group'>
+								<Col sm = {12}><Label htmlFor = 'rating'>Rating</Label></Col>
+								<Col sm = {12}>
+									<Control.select className = 'form-control' type = 'number' 
+										model = '.rating' id = 'rating' name = 'rating' min = '0' max = '5' defaultValue = {5}
+									>
+										<option value='1'>1</option>
+										<option value='2'>2</option>
+										<option value='3'>3</option>
+										<option value='4'>4</option>
+										<option value='5'>5</option>
+									</Control.select>
+								</Col>
+							</Row>
+							<Row className = 'form-group'>
+								<Col sm = {12}><Label htmlFor = 'name'>Your Name</Label></Col>
+								<Col sm = {12}>
+									<Control.text className = 'form-control' model = '.name' 
+										id = 'name' name = 'name' placeholder = 'Your Name'
+										validators = {{
+											minLength: minLength(3), 
+											maxLength: maxLength(15)
+										}}
+									/>
+								</Col>
+								<Col col = {12}>
+									<Errors model = '.name' show = 'touched' className='text-danger'
+										messages = {{
+											minLength: 'Must be greater than 2 characters',
+											maxLength: 'Must be less than 15 characters'
+										}}
+									/>
+								</Col>
+							</Row>					
+							<Row className = 'form-group'>
+								<Col sm = {12}><Label htmlFor = 'comment'>Comment</Label></Col>
+								<Col sm = {12}>
+									<Control.textarea className = 'form-control' rows ='6' 
+										model = '.comment' id = 'comment' name = 'comment'
+										validators = {{
+											required
+										}}
+									/>
+								</Col>
+								<Col>
+									<Errors model = '.comment' show='touched' className='text-danger'
+										messages = {{
+											required: 'This field is required'
+										}}
+									/> 
+								</Col>
+							</Row>									
+						</ModalBody>
+						<ModalFooter>
+							<Button color='primary'>Submit</Button>
+						</ModalFooter>
+					</LocalForm>
+				</Modal>
+			</div>
+		)
+	}
+}
 
 export default DishDetail;
