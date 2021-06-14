@@ -1,5 +1,0 @@
-package com.meritamerica.assignment7.model.security.jwt;
-
-public class JwtUtil {
-
-}

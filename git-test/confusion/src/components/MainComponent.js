@@ -4,6 +4,7 @@ import About from'./AboutComponent';
 import Menu from './MenuComponent';
 import Contact from './ContactComponent';
 import DishDetail from './DishdetailComponent';
+import Weather from './WeatherComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
@@ -72,6 +73,12 @@ class Main extends Component {
                 />
             );
         };
+
+        const WeatherPage = () => {
+            return (
+                <Weather />
+            );
+        }
     
         return (
         <div>
@@ -88,6 +95,7 @@ class Main extends Component {
                                 {this.props.resetFeedbackForm}
                                 postFeedback={this.props.postFeedback} />} 
                         />
+                        <Route exact path='/weather' component={() => <Weather />} />
                         <Redirect to="/home" />
                     </Switch>
                 </CSSTransition>

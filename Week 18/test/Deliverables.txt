@@ -1,0 +1,4 @@
+1. Given a string (likely would've been read from a file), determine what type of card it is.
+2. Verified the type of card based on initial expectations listed in the provided table. For example, Visa cards' first digit begins with 4, if those conditions are met, an instance of Visa card is created. The rest of the string can be parsed to retrieve the expiration date and the card holder's name.
+3. Used factor method pattern for the cards.
+4. Many classes used for separate types of credit cards.

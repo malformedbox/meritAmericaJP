@@ -2112,3 +2112,41 @@
 2021-05-11 11:28:25,812 [Worker-2: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
 2021-05-11 11:28:25,812 [Worker-2: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
 2021-05-11 11:28:25,812 [Worker-2: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Merit America\Submissions\Week 13\assignment7\src\test\resources
+2021-05-26 10:51:34,527 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2021-05-27 12:35:51,746 [Worker-0: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2021-05-27 15:56:37,453 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2021-05-27 15:56:58,022 [Worker-7: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-05-27 15:56:58,022 [Worker-7: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-05-27 15:56:58,030 [Worker-7: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-05-27 15:56:58,068 [Worker-7: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2021-05-27 15:56:58,109 [Worker-7: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-05-27 15:56:58,109 [Worker-7: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-05-27 15:56:58,109 [Worker-7: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Merit America\Submissions\Week 13\assignment7\src\test\resources
+2021-05-27 17:42:28,552 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2021-05-28 12:47:55,651 [Worker-2: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2021-05-31 12:38:46,837 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2021-06-01 13:53:44,230 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2021-06-01 14:02:53,829 [Worker-2: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-06-01 14:02:53,829 [Worker-2: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-06-01 14:02:53,832 [Worker-2: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-06-01 14:02:53,848 [Worker-2: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2021-06-01 14:02:53,863 [Worker-2: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-06-01 14:02:53,863 [Worker-2: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-06-01 14:02:53,863 [Worker-2: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Merit America\Submissions\Week 13\assignment7\src\test\resources
+2021-06-01 17:07:06,668 [Worker-2: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-06-01 17:07:06,671 [Worker-2: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-06-01 17:07:06,676 [Worker-2: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-06-01 17:07:06,702 [Worker-2: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2021-06-01 17:07:06,707 [Worker-2: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-06-01 17:07:06,707 [Worker-2: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-06-01 17:07:06,707 [Worker-2: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Merit America\Submissions\Week 13\assignment7\src\test\resources
+2021-06-02 12:43:39,218 [Worker-5: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2021-06-03 14:46:38,485 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2021-06-03 14:46:56,108 [Worker-6: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-06-03 14:46:56,108 [Worker-6: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-06-03 14:46:56,111 [Worker-6: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-06-03 14:46:56,127 [Worker-6: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
+2021-06-03 14:46:56,139 [Worker-6: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-06-03 14:46:56,139 [Worker-6: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-06-03 14:46:56,140 [Worker-6: Launching assignment7 - Assignment7Application] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory D:\Merit America\Submissions\Week 13\assignment7\src\test\resources
+2021-06-06 14:29:11,157 [Worker-1: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
